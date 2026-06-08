@@ -11,6 +11,7 @@ It is designed for maintainers who want a quick release-note starting point with
 - Groups commits into Added, Fixed, Documentation, Changed, and Other
 - Supports custom ranges
 - Can read commit subjects from stdin for scripts and tests
+- Can write generated Markdown directly to a file
 
 ## Install
 
@@ -38,6 +39,12 @@ Read commit subjects from stdin:
 git log --pretty=%s | changelog-from-commits --stdin
 ```
 
+Write a draft changelog file:
+
+```bash
+changelog-from-commits --output CHANGELOG_DRAFT.md
+```
+
 ## Why this exists
 
 Release notes are important, but they are often written at the end of already-tiring maintainer work. This tool creates a clean first draft so maintainers can focus on judgment and clarity.
@@ -47,7 +54,6 @@ Release notes are important, but they are often written at the end of already-ti
 - Conventional Commits support
 - GitHub compare links
 - Pull request number extraction
-- Markdown file output
 - Optional OpenAI-powered release summaries
 
 ## License

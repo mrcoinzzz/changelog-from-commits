@@ -17,6 +17,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--range", dest="revision_range", help="Git revision range, for example v0.1.0..HEAD")
     parser.add_argument("--title", default="Unreleased", help="Changelog heading")
     parser.add_argument("--stdin", action="store_true", help="Read commit subjects from stdin")
+    parser.add_argument("--output", help="Write the generated changelog to a Markdown file")
     args = parser.parse_args(argv)
 
     if args.stdin:
@@ -28,7 +29,16 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Could not read git commits: {error}", file=sys.stderr)
             return 2
 
-    print(generate_changelog(subjects, args.title), end="")
+    changelog = generate_changelog(subjects, args.title)
+    if args.output:
+        try:
+            Path(args.output).write_text(changelog, encoding="utf-8")
+        except OSError as error:
+            print(f"Could not write changelog: {error}", file=sys.stderr)
+            return 2
+    else:
+        print(changelog, end="")
+
     return 0
 
 
